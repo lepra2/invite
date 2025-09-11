@@ -5,16 +5,28 @@ document.getElementById("codeForm").addEventListener("submit", async (e) => {
   const code = document.getElementById("code").value;
 
   try {
-    const response = await fetch("https://api.leprosorium2.ru/check-code", {
+    // 1. Проверка кодового слова
+    const checkRes = await fetch("https://api.leprosorium2.ru/check-code", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, code }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
     });
+    const checkData = await checkRes.json();
 
-    const data = await response.json();
-    document.getElementById("result").textContent = JSON.stringify(data);
+    if (!checkData.success) {
+      document.getElementById("result").textContent = "Неверное кодовое слово";
+      return;
+    }
+
+    // 2. Отправка email на воркер
+    const emailRes = await fetch("https://api.leprosorium2.ru/email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const emailData = await emailRes.json();
+
+    document.getElementById("result").textContent = JSON.stringify(emailData);
   } catch (err) {
     document.getElementById("result").textContent = "Ошибка: " + err.message;
   }
