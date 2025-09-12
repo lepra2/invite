@@ -6,8 +6,13 @@
   <meta name="description" content="Где я?" />
   Съешь ещё этих мягких французских булок, да выпей же чаю.
  <form id="codeForm">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <input type="email" id="email" placeholder="Ваша почта" required />
   <input type="text" id="code" placeholder="уверен?" required />
+  <div class="cf-turnstile"
+     data-sitekey="0x4AAAAAAB046AUDF2HcfgUL"
+     data-action="email_signup">
+  </div>
   <button type="submit">Нет</button>
 </form>
 <div id="result"></div>
